@@ -1,0 +1,11 @@
+body, html {
+    font-family: 'Roboto', sans-serif;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+}
+
+.footerListTitle{
+    font-family: 'Roboto', sans-serif; 
+    font-weight: 700;
+}
+.footerBg{background-color: #b5d56a;}
