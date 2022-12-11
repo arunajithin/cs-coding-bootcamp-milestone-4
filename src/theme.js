@@ -11,12 +11,6 @@ function UrbanTheme(){
                 main: '#7D9113',
             },
         },
-        typography: {
-            fontFamily: [
-              'PT Serif',
-              'serif',
-            ].join(','),
-        },
     });
 
     return(

@@ -84,7 +84,7 @@ function Footer() {
               </Box>
             </Grid>
             <Grid item xs={12} sm={3}>
-              <Typography variant="h6" mb={4} className={styles.footerListTitle}>Download Our App</Typography>
+              <Typography className={styles.footerListTitle} variant="h6" mb={4}>Download Our App</Typography>
               <Box sx={{ mb: '10px' }}
               component="img"
               alt="Download Our App"
@@ -98,9 +98,9 @@ function Footer() {
           </Grid>
         </Container>
       </Box>
-      <Box pt={{ xs: 5, sm: 5 }} pb={{ xs: 5, sm: 5 }} bgcolor="#f0f3f2" color="black" borderTop={1}>
-            <Container maxWidth="lg">
-                <Grid container spacing={2}>
+      <Box pt={{ xs: 5, sm: 5 }} pb={{ xs: 5, sm: 5 }} bgcolor="#f0f3f2" color="black">
+            <Container maxWidth="lg" sx={{py: 1, borderTop: '1px solid #ccc'}}>
+                <Grid container>
                     <Grid item xs={6} md={6}>
                         <Typography variant='p'>Copyright {new Date().getFullYear()} © Urban Fresh. All rights reserved.
                         </Typography>
