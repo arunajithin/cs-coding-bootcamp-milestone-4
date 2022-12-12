@@ -61,7 +61,7 @@ const center={
     'position':'relative'
 }
 
-const productCards = ['Fruits & Veges','Dairy & Eggs','Meat & Poutry','Baked Products','Beverages','Legumes','Snacks','Cleaning Set','Stationary','Health & Beaulty']
+const productCards = ['Fruits & Vegetables','Dairy & Eggs','Meat & Poultry','Baked Products','Beverages','Legumes','Snacks','Cleaning Set','Stationary','Health & Beaulty']
 const productImages = [fruits,dairies,chicken,bakery,beverages,legumes,snacks,cleaningSet,stationary,healthNbeauty];
 
 function HomeScreen(){
@@ -101,7 +101,7 @@ function HomeScreen(){
           alt=""
         />
         <CardContent>
-          <Typography gutterBottom variant="h5" component="div" key={cards}>
+          <Typography gutterBottom fontSize="20px" component="div" key={cards}>
           {cards}
           </Typography>
         </CardContent>
