@@ -1,0 +1,17 @@
+body, html {
+    font-family: 'Roboto', sans-serif;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    font-weight: 400;
+}
+
+.footerListTitle{
+    font-weight: 700 !important;
+}
+.footerBg{background-color: #b5d56a;}
+.btnOrder{
+    background-color: #000 !important;
+    color: #fff;
+    text-transform: uppercase;
+    
+}
