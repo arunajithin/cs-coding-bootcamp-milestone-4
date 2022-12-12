@@ -11,7 +11,7 @@ import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
-import logo from './Wide-and-Full.svg';
+import logo from './assets/images/Wide-and-Full.svg';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Button from '@mui/material/Button';
 import Tabs from '@mui/material/Tabs';
@@ -70,13 +70,16 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     transition: theme.transitions.create('width'),
     width: '100%',
     [theme.breakpoints.up('sm')]: {
-      width: '30rem',
+      width: '20rem',
     },
     [theme.breakpoints.up('md')]: {
-      width: '50rem',
+      width: '30rem',
+    },
+    [theme.breakpoints.up('lg')]: {
+      width: '40rem',
     },
     [theme.breakpoints.up('xl')]: {
-      width: '100rem',
+      width: '60rem',
     },
   },
 }));
