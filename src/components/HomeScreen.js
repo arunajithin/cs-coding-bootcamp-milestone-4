@@ -10,6 +10,7 @@ import healthNbeauty from '../assets/images/health-beauty.jpg';
 import legumes from '../assets/images/legumes.jpg';
 import snacks from '../assets/images/snacks.jpg';
 import stationary from '../assets/images/stationery.jpg';
+import StoreImage from '../assets/images/store-graphics.svg';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import CardMedia from '@mui/material/CardMedia';
@@ -18,6 +19,10 @@ import CardContent from '@mui/material/CardContent';
 import { CardActionArea } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
+import Box from '@mui/material/Box';
+import Button from "@mui/material/Button";
+
+import styles from '../styles.module.css';
 
 const theme = createTheme();
 
@@ -116,8 +121,32 @@ function HomeScreen(){
 </Grid>
 </Container>
 </div>  
+<Box className="home-banner" sx={{ my: 6, mx: 6, bgcolor: '#b5d56a', borderRadius: '10px' }}>
+            <Container maxWidth="lg" sx={{ py: 6, px: 4}}>
+                <Grid container>
+                    <Grid item xs={12} sm={6}>
+                        <Box sx={{px: 3}}>
+                            <Typography variant="h2" mb={1} sx={{ color: '#fff', fontSize: '40px', fontWeight: '700' }}>
+                                Fast & Free Delivery
+                            </Typography>
+                            <Typography variant="body1" mb={3} sx={{ color: '#fff', fontSize: '16px' }}>
+                                Start your daily shopping with Urban Fresh
+                            </Typography>
+                            <Button variant="contained" className={styles.btnOrder}>Order Now</Button>
+                        </Box>
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                    <Box sx={{ mb: '10px' }}
+                    component="img"
+                    alt="Download Our App"
+                    src={StoreImage} />
+                    </Grid>
+                </Grid>
+            </Container>
+        </Box>
 
     </React.Fragment>
+
     );
 }
 export default HomeScreen;
