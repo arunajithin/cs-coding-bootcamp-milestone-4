@@ -132,7 +132,7 @@ function LoginScreen() {
         return (
             <Container maxWidth="sm">
                 <Box pt={8}>
-                    <Typography component="h1" variant="h2">
+                    <Typography component="h1" variant="h2" sx={{fontWeight: 'regular'}}>
                         Login
                     </Typography>
                 </Box>
