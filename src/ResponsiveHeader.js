@@ -1,162 +1,198 @@
-import React from 'react';
+import * as React from 'react';
+import { Link as ReactLink } from 'react-router-dom';
+import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
+import InputBase from '@mui/material/InputBase';
+import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
+import Menu from '@mui/material/Menu';
+import SearchIcon from '@mui/icons-material/Search';
+import logo from './Wide-and-Full.svg';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import Button from '@mui/material/Button';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import { createTheme, ThemeProvider  } from '@mui/material/styles';
 
-const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+//NavBar
+const pages = ['Home', 'Fruits & Vegetables', 'Dairy & Eggs', 'Meat & Poultry', 'Baked Products',];
+const pagesPaths = ['/', '/components/fruitsVeg', '/components/dairyEggs', '/components/meatPoultry', '/components/bakedProducts'];
 
-function ResponsiveHeader() {
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#7D9113',
+    },
+    secondary: {
+      main: '#7D9113',
+    },
+  },
+}
+);
 
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
+const Search = styled('div')(({ theme }) => ({
+  position: 'relative',
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  '&:hover': {
+    backgroundColor: alpha(theme.palette.common.white, 0.25),
+  },
+  marginRight: theme.spacing(2),
+  marginLeft: 0,
+  width: '100%',
+  [theme.breakpoints.up('sm')]: {
+    marginLeft: theme.spacing(3),
+    width: 'auto',
+  },
+}));
+
+
+const SearchIconWrapper = styled('div')(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: '100%',
+  position: 'absolute',
+  pointerEvents: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: 'inherit',
+  '& .MuiInputBase-input': {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      width: '30rem',
+    },
+    [theme.breakpoints.up('md')]: {
+      width: '50rem',
+    },
+    [theme.breakpoints.up('xl')]: {
+      width: '100rem',
+    },
+  },
+}));
+
+export default function PrimarySearchAppBar() {
+  const [value, setValue] = React.useState(0);
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
   };
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const setMobileMoreAnchorEl = React.useState(null);
+
+  const isMenuOpen = Boolean(anchorEl);
+
+  const handleMobileMenuClose = () => {
+    setMobileMoreAnchorEl(null);
   };
 
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+    handleMobileMenuClose();
   };
 
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
+  const menuId = 'primary-search-account-menu';
+  const renderMenu = (
+    <Menu
+      anchorEl={anchorEl}
+      anchorOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      id={menuId}
+      keepMounted
+      transformOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      open={isMenuOpen}
+      onClose={handleMenuClose}
+    >
+      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+    </Menu>
+  );
 
   return (
-    <AppBar position="static" sx={{backgroundColor: 'green'}}>
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar position="static" sx={{ backgroundColor: "#ffffff" }}>
+      <ThemeProvider theme={theme}>
+        <Toolbar>
+          <Box>
+            <a href="index.html">
+              <img width="200px" height="50px" src={logo} alt={"Logo"}/>
+            </a>
+          </Box>
           <Typography
             variant="h6"
             noWrap
-            component="a"
-            href="/"
-            sx={{
-              mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
+            component="div"
+            sx={{ display: { xs: 'none', sm: 'block' } }}
           >
-            LOGO
+            MUI
           </Typography>
-
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          <Box sx={{ border: 1, borderColor: 'grey.400', borderRadius: 1 }}>
+            <Search>
+              <SearchIconWrapper sx={{ color: "black" }}>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase sx={{ color: "black" }}
+                placeholder="Search for something delightful..."
+                inputProps={{ 'aria-label': 'search' }}
+              />
+            </Search>
+          </Box>
+          <Box sx={{ flexGrow: 1 }} />
+          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <IconButton
               size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
+              aria-label="cart menu"
+              color="black"
             >
-              <MenuIcon />
+              <Badge badgeContent={0} color="error">
+                <ShoppingCartIcon />
+              </Badge>
             </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: 'block', md: 'none' },
-              }}
-            >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href=""
-            sx={{
-              mr: 2,
-              display: { xs: 'flex', md: 'none' },
-              flexGrow: 1,
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
-          >
-            LOGO
-          </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {page}
-              </Button>
-            ))}
+          <Box sx={{ marginLeft: '20px', display: { xs: 'none', md: 'flex' } }}>
+            <Button sx={{backgroundColor: "primary"}} size="small" variant="contained">Sign up</Button>
+            <Button size="small" variant="text">Log in</Button>
           </Box>
 
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
         </Toolbar>
-      </Container>
-    </AppBar>
+        </ThemeProvider>
+      </AppBar>
+      <AppBar position="static" sx={{ backgroundColor: "#f9fff3", boxShadow: '0px 2px 5px #bcbaba'}}>
+      <ThemeProvider theme={theme}>
+        <Toolbar>
+        <Box sx={{ width: '100%' }}>
+      <Tabs value={value} onChange={handleChange} centered indicatorColor="secondary" textColor="primary">
+        {pages.map((page, i) => (
+           <Tab 
+           sx={{fontWeight: 'bold'}} 
+           label={page}
+           component = {ReactLink}
+           to = {pagesPaths[i]}
+          key={page} />
+        )
+        )}
+      </Tabs>
+    </Box>
+        </Toolbar>
+        </ThemeProvider>
+      </AppBar>
+
+      {renderMenu}
+    </Box>
   );
 }
-export default ResponsiveHeader;
