@@ -14,7 +14,7 @@ function CallToActionBanner(){
             <Container maxWidth="lg" sx={{ py: 6, px: 4}}>
                 <Grid container>
                     <Grid item xs={12} sm={6}>
-                        <Box>
+                        <Box sx={{px: 3}}>
                             <Typography variant="h2" mb={1} sx={{ color: '#fff', fontSize: '40px', fontWeight: '700' }}>
                                 Fast & Free Delivery
                             </Typography>
