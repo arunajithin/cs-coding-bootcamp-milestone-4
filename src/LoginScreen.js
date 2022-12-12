@@ -9,20 +9,7 @@ import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { createTheme, ThemeProvider  } from '@mui/material/styles';
 
-
-const theme = createTheme({
-    palette: {
-      primary: {
-        main: '#7D9113',
-      },
-      secondary: {
-        main: '#7D9113',
-      },
-    },
-  }
-  );
 
 function LoginScreen() {
 
@@ -132,7 +119,7 @@ function LoginScreen() {
         return (
             <Container maxWidth="sm">
                 <Box pt={8}>
-                    <Typography component="h1" variant="h2" sx={{fontWeight: 'regular'}}>
+                    <Typography component="h1" variant="h2">
                         Login
                     </Typography>
                 </Box>
@@ -159,11 +146,12 @@ function LoginScreen() {
                         label="Password" required={true} />
                     </FormControl>
                 </Box>
-                <ThemeProvider theme={theme}>
+
                 <Box display="flex">
+                    
                     {
                         formState !== "loading" &&
-                        <Button onClick={login} size="large" variant="contained" color="primary">Send</Button>
+                        <Button onClick={login} size="large" variant="contained">Send</Button>
                     }
                     
                     {
@@ -171,8 +159,6 @@ function LoginScreen() {
                         <CircularProgress />
                     }
                 </Box>
-                </ThemeProvider>
-
 
                 <Box mt={2}>
 
