@@ -1,3 +1,4 @@
+
 import * as React from 'react';
 import groceryImg from './assets/images/grocery.jpg';
 import fruits from './assets/images/Fruits-and-Vegetables.jpg';
@@ -115,7 +116,5 @@ function HomeScreen(){
 </div>  
 
     </React.Fragment>
-    )
-}
 
 export default HomeScreen;
