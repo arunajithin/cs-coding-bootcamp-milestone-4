@@ -168,6 +168,7 @@ function RegistrationScreen() {
                             passwordField = thisElement;
                         } 
                     }
+                    type="password"
                     label="Password" required={true} />
                 </FormControl>
             </Box>
