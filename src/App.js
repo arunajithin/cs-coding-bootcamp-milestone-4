@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Switch } from 'react-router-dom';
-import HomeScreen from './HomeScreen';
+import HomeScreen from './components/HomeScreen.js';
 import LayoutRoute from './LayoutRoute';
 
 function App() {
