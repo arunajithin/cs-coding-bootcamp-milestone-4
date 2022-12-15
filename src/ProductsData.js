@@ -1,9 +1,18 @@
-export default [
+let ProductData = [
     {
       id: "1",
-      name: "Grumpy Cat Poster",
-      description: "Everyone's favorite cat who loves to hate",
-      price: 15
+      productName: "Tomato(JO)",
+      productDescription: "Everyone's favorite cat who loves to hate",
+      productImage: "",
+      brand: "Barakat Fresh",
+      sku: "UF650098",
+      category: "Fruits & Veg",
+      price: 5.50,
+      origin: "Jordan",
+      dietaryNeeds: "Vegetarian",
+      shelfLife: "5 Days",
+      storageReq: "Chilled(2-6)",
+      quantity: 20
     },
     {
       id: "2",
@@ -27,3 +36,4 @@ export default [
     }
   ];
   
+export default ProductData;
