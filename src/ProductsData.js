@@ -2,7 +2,7 @@ let ProductData = [
     {
       id: "1",
       productName: "Tomato(JO)",
-      productDescription: "Everyone's favorite cat who loves to hate",
+      productDescription: "Tomatoes from Jordan",
       productImage: "",
       brand: "Barakat Fresh",
       sku: "UF650098",
@@ -16,23 +16,18 @@ let ProductData = [
     },
     {
       id: "2",
-      name: "Stretch Armstrong",
-      description:
-        "He bends! He stretches! He even ties in knots, but always returns to his original shape!",
-      price: 20
-    },
-    {
-      id: "3",
-      name: "Hungry Hungry Hippos Game",
-      description:
-        "It's a race, it's a chase, hurry up and feed their face! Who will win? No one knows! Feed the hungry hip-ip-pos!",
-      price: 30
-    },
-    {
-      id: "4",
-      name: "Crossfire board game",
-      description: "You'll get caught up in the crossfire!",
-      price: 35
+      productName: "Brown Eggs Large 30 Pieces",
+      productDescription: "Brown Eggs Large 30 Pieces",
+      productImage: "",
+      brand: "Noon Grocery",
+      sku: "UF650099",
+      category: "Dairy & Eggs",
+      price: 23.50,
+      origin: "UAE",
+      dietaryNeeds: "Non Vegetarian",
+      shelfLife: "",
+      storageReq: "",
+      quantity: 30
     }
   ];
   
