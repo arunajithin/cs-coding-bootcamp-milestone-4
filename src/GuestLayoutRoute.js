@@ -10,7 +10,7 @@ function GuestLayoutRoute(props) {
 
     const {loggedIn} = UserContext;
 
-    if (loggedIn === false) {
+    if (!loggedIn) {
         return (
             <Box sx={{
                 display: 'flex',
