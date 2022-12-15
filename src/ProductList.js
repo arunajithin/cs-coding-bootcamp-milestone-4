@@ -2,7 +2,7 @@ import React from "react";
 import ProductsData from "./ProductsData";
 import { Link } from "react-router-dom";
 
-const Products = () => {
+function ProductList(){
   const products = ProductsData.map(product => {
     return (
       <div key={product.id}>
@@ -23,4 +23,4 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default ProductList;

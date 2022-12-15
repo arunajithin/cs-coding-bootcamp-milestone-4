@@ -18,6 +18,7 @@ import CardContent from '@mui/material/CardContent';
 import { CardActionArea } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
+import CallToActionBanner from './CallToActionBanner';
 
 const theme = createTheme();
 
@@ -116,6 +117,7 @@ function HomeScreen(){
 </Grid>
 </Container>
 </div>  
+  <CallToActionBanner/>
 
     </React.Fragment>
     );

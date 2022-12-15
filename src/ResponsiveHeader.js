@@ -20,7 +20,6 @@ import { createTheme, ThemeProvider  } from '@mui/material/styles';
 import Container from '@mui/material/Container';
 import LoginScreen from './LoginScreen.js';
 import RegistrationScreen from './RegistrationScreen';
-import { Link } from 'react-router-dom';
 
 //NavBar
 const pages = ['Home', 'Fruits & Vegetables', 'Dairy & Eggs', 'Meat & Poultry', 'Baked Products',];
