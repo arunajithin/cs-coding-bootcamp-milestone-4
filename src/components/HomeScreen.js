@@ -1,16 +1,15 @@
-
 import * as React from 'react';
-import groceryImg from './assets/images/grocery.jpg';
-import fruits from './assets/images/Fruits-and-Vegetables.jpg';
-import bakery from './assets/images/bakery2.jpg';
-import beverages from './assets/images/beverages.jpg';
-import chicken from './assets/images/chicken.jpg';
-import cleaningSet from './assets/images/cleaning-set.jpg';
-import dairies from './assets/images/fresh-dairy-products.jpg';
-import healthNbeauty from './assets/images/health-beauty.jpg';
-import legumes from './assets/images/legumes.jpg';
-import snacks from './assets/images/snacks.jpg';
-import stationary from './assets/images/stationery.jpg';
+import groceryImg from '../assets/images/grocery.jpg';
+import fruits from '../assets/images/Fruits-and-Vegetables.jpg';
+import bakery from '../assets/images/bakery2.jpg';
+import beverages from '../assets/images/beverages.jpg';
+import chicken from '../assets/images/chicken.jpg';
+import cleaningSet from '../assets/images/cleaning-set.jpg';
+import dairies from '../assets/images/fresh-dairy-products.jpg';
+import healthNbeauty from '../assets/images/health-beauty.jpg';
+import legumes from '../assets/images/legumes.jpg';
+import snacks from '../assets/images/snacks.jpg';
+import stationary from '../assets/images/stationery.jpg';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import CardMedia from '@mui/material/CardMedia';
@@ -18,6 +17,8 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import { CardActionArea } from '@mui/material';
 import Grid from '@mui/material/Grid';
+import Container from '@mui/material/Container';
+import CallToActionBanner from './CallToActionBanner';
 
 const theme = createTheme();
 
@@ -88,7 +89,8 @@ function HomeScreen(){
 
 <div style={catText}>
    <h3>Shop by <span style={catText.span}>category</span></h3>
- <Grid container spacing={2} paddingLeft={15} display="flex">
+   <Container maxWidth="lg">
+ <Grid container spacing={2} display="flex">
  
 {productCards.map((cards,i) => (
     <Grid item xl={2}>
@@ -113,8 +115,11 @@ function HomeScreen(){
 
 
 </Grid>
+</Container>
 </div>  
+  <CallToActionBanner/>
 
     </React.Fragment>
-
+    );
+}
 export default HomeScreen;

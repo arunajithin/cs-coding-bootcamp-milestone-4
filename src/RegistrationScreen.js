@@ -8,7 +8,6 @@ import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
-
 function RegistrationScreen() {
 
     // The states are: 
@@ -168,6 +167,7 @@ function RegistrationScreen() {
                             passwordField = thisElement;
                         } 
                     }
+                    type="password"
                     label="Password" required={true} />
                 </FormControl>
             </Box>
@@ -193,7 +193,6 @@ function RegistrationScreen() {
 
             </Box>
 
-
             <Box display="flex">
                 
                 {
@@ -206,7 +205,6 @@ function RegistrationScreen() {
                     <CircularProgress />
                 }
             </Box>
-
             <Box mt={2}>
 
                 { 

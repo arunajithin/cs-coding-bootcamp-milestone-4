@@ -17,6 +17,9 @@ import Button from '@mui/material/Button';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { createTheme, ThemeProvider  } from '@mui/material/styles';
+import Container from '@mui/material/Container';
+import LoginScreen from './LoginScreen.js';
+import RegistrationScreen from './RegistrationScreen';
 
 //NavBar
 const pages = ['Home', 'Fruits & Vegetables', 'Dairy & Eggs', 'Meat & Poultry', 'Baked Products',];
@@ -33,6 +36,7 @@ const theme = createTheme({
   },
 }
 );
+
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -69,17 +73,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create('width'),
     width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      width: '20rem',
-    },
     [theme.breakpoints.up('md')]: {
-      width: '30rem',
-    },
-    [theme.breakpoints.up('lg')]: {
       width: '40rem',
-    },
-    [theme.breakpoints.up('xl')]: {
-      width: '60rem',
     },
   },
 }));
@@ -91,18 +86,28 @@ export default function PrimarySearchAppBar() {
   };
 
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const setMobileMoreAnchorEl = React.useState(null);
+  const [anchorEl2, setAnchorEl2] = React.useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
+  const isMenuOpen2 = Boolean(anchorEl2);
 
-  const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
+
+  const handleProfileMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
   };
+  const handleProfileMenuOpen2 = (event) => {
+    setAnchorEl2(event.currentTarget);
+  };
+
 
   const handleMenuClose = () => {
     setAnchorEl(null);
-    handleMobileMenuClose();
   };
+  const handleMenuClose2 = () => {
+    setAnchorEl2(null);
+  };
+
+
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -121,15 +126,35 @@ export default function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleMenuClose} to={"/register"} component={RegistrationScreen}></MenuItem>
     </Menu>
   );
+  const renderMenu2 = (
+    <Menu
+      anchorEl2={anchorEl2}
+      anchorOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      id={menuId}
+      keepMounted
+      transformOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      open={isMenuOpen2}
+      onClose={handleMenuClose2}
+    >
+      <MenuItem onClick={handleMenuClose2} to={"/login"} component={LoginScreen}></MenuItem>
+    </Menu>
+  );
+
 
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" sx={{ backgroundColor: "#ffffff" }}>
       <ThemeProvider theme={theme}>
+        <Container maxWidth="xl">
         <Toolbar>
           <Box>
             <a href="index.html">
@@ -144,7 +169,7 @@ export default function PrimarySearchAppBar() {
           >
             MUI
           </Typography>
-          <Box sx={{ border: 1, borderColor: 'grey.400', borderRadius: 1 }}>
+          <Box sx={{ border: 1, borderColor: 'grey.400', borderRadius: 1, flexWrap: 'wrap'}}>
             <Search>
               <SearchIconWrapper sx={{ color: "black" }}>
                 <SearchIcon />
@@ -167,12 +192,13 @@ export default function PrimarySearchAppBar() {
               </Badge>
             </IconButton>
           </Box>
-          <Box sx={{ marginLeft: '20px', display: { xs: 'none', md: 'flex' } }}>
-            <Button sx={{backgroundColor: "primary"}} size="small" variant="contained">Sign up</Button>
-            <Button size="small" variant="text">Log in</Button>
+          <Box sx={{ marginLeft: '20px', flexWrap: 'wrap' }}>
+            <Button sx={{backgroundColor: "primary"}} size="small" variant="contained" onClick={handleProfileMenuOpen}>Sign up</Button>
+            <Button size="small" variant="text" onClick={handleProfileMenuOpen2}>Log in</Button>
           </Box>
 
         </Toolbar>
+        </Container>
         </ThemeProvider>
       </AppBar>
       <AppBar position="static" sx={{ backgroundColor: "#f9fff3", boxShadow: '0px 2px 5px #bcbaba'}}>
@@ -194,8 +220,8 @@ export default function PrimarySearchAppBar() {
         </Toolbar>
         </ThemeProvider>
       </AppBar>
-
       {renderMenu}
+      {renderMenu2}
     </Box>
   );
 }
