@@ -1,15 +1,15 @@
 import * as React from 'react';
-import groceryImg from './assets/images/grocery.jpg';
-import fruits from './assets/images/Fruits-and-Vegetables.jpg';
-import bakery from './assets/images/bakery2.jpg';
-import beverages from './assets/images/beverages.jpg';
-import chicken from './assets/images/chicken.jpg';
-import cleaningSet from './assets/images/cleaning-set.jpg';
-import dairies from './assets/images/fresh-dairy-products.jpg';
-import healthNbeauty from './assets/images/health-beauty.jpg';
-import legumes from './assets/images/legumes.jpg';
-import snacks from './assets/images/snacks.jpg';
-import stationary from './assets/images/stationery.jpg';
+import groceryImg from '../assets/images/grocery.jpg';
+import fruits from '../assets/images/Fruits-and-Vegetables.jpg';
+import bakery from '../assets/images/bakery2.jpg';
+import beverages from '../assets/images/beverages.jpg';
+import chicken from '../assets/images/chicken.jpg';
+import cleaningSet from '../assets/images/cleaning-set.jpg';
+import dairies from '../assets/images/fresh-dairy-products.jpg';
+import healthNbeauty from '../assets/images/health-beauty.jpg';
+import legumes from '../assets/images/legumes.jpg';
+import snacks from '../assets/images/snacks.jpg';
+import stationary from '../assets/images/stationery.jpg';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import CardMedia from '@mui/material/CardMedia';
@@ -17,6 +17,9 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import { CardActionArea } from '@mui/material';
 import Grid from '@mui/material/Grid';
+import Container from '@mui/material/Container';
+import CallToActionBanner from './CallToActionBanner';
+import { Link as ReactLink } from 'react-router-dom';
 
 const theme = createTheme();
 
@@ -61,8 +64,9 @@ const center={
     'position':'relative'
 }
 
-const productCards = ['Fruits & Vegetables','Dairy & Eggs','Meat & Poultry','Baked Products','Beverages','Legumes','Snacks','Cleaning Set','Stationary','Health & Beaulty']
+const productCards = ['Fruits & Vegetables','Dairy & Eggs','Meat & Poultry','Baked Products','Beverages','Legumes','Snacks','Cleaning Set','Stationary','Health & Beaulty'];
 const productImages = [fruits,dairies,chicken,bakery,beverages,legumes,snacks,cleaningSet,stationary,healthNbeauty];
+const productPaths = [ '/fruitsVeg', '/dairyEggs', '/meatPoultry', '/bakedProducts','/beverages','/legumes','/snacks','/cleaningSet','/stationary','/health'];
 
 function HomeScreen(){
     return(
@@ -87,13 +91,13 @@ function HomeScreen(){
 
 <div style={catText}>
    <h3>Shop by <span style={catText.span}>category</span></h3>
- <Grid container spacing={2} paddingLeft={15} display="flex">
+   <Container maxWidth="lg">
+ <Grid container spacing={2} display="flex">
  
 {productCards.map((cards,i) => (
     <Grid item xl={2}>
-
      <Card sx={{ maxWidth: 350 }}>
-      <CardActionArea>
+      <CardActionArea component = {ReactLink}  to ={productPaths[i]}>
         <CardMedia
           component="img"
           height="140"
@@ -112,10 +116,11 @@ function HomeScreen(){
 
 
 </Grid>
+</Container>
 </div>  
+  <CallToActionBanner/>
 
     </React.Fragment>
-    )
+    );
 }
-
 export default HomeScreen;
