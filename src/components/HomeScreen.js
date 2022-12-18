@@ -19,6 +19,7 @@ import { CardActionArea } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 import CallToActionBanner from './CallToActionBanner';
+import { Link as ReactLink } from 'react-router-dom';
 
 const theme = createTheme();
 
@@ -63,8 +64,9 @@ const center={
     'position':'relative'
 }
 
-const productCards = ['Fruits & Vegetables','Dairy & Eggs','Meat & Poultry','Baked Products','Beverages','Legumes','Snacks','Cleaning Set','Stationary','Health & Beaulty']
+const productCards = ['Fruits & Vegetables','Dairy & Eggs','Meat & Poultry','Baked Products','Beverages','Legumes','Snacks','Cleaning Set','Stationary','Health & Beaulty'];
 const productImages = [fruits,dairies,chicken,bakery,beverages,legumes,snacks,cleaningSet,stationary,healthNbeauty];
+const productPaths = [ '/fruitsVeg', '/dairyEggs', '/meatPoultry', '/bakedProducts','/beverages','/legumes','/snacks','/cleaningSet','/stationary','/health'];
 
 function HomeScreen(){
     return(
@@ -94,9 +96,8 @@ function HomeScreen(){
  
 {productCards.map((cards,i) => (
     <Grid item xl={2}>
-
-     <Card sx={{ maxWidth: 350 }} key={cards.i}>
-      <CardActionArea>
+     <Card sx={{ maxWidth: 350 }}>
+      <CardActionArea component = {ReactLink}  to ={productPaths[i]}>
         <CardMedia
           component="img"
           height="140"
@@ -122,4 +123,5 @@ function HomeScreen(){
     </React.Fragment>
     );
 }
+
 export default HomeScreen;

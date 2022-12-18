@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const cloudinary = require('cloudinary').v2;
 
+const cloudinary = require('cloudinary').v2;
 const ProductModel = require('../models/ProductModel');
 
 // products/add
@@ -22,104 +23,74 @@ router.post('/add',
             "quantity": req.body.quantity
         }
 
+       // Check if sku is unique
+       ProductModel
+       .findOne( { sku: newDocument['sku']} )
+       .then(
+           async function () {
+               // If avatar file is included...
+               if( Object.values(req.files).length > 0 ) {
 
-        ProductModel
-        .findOne( { sku: newDocument['sku']} )
-        .then(
-            async function (dbDocument) {
-                // If avatar file is included...
-                if( Object.values(req.files).length > 0 ) {
+                   const files = Object.values(req.files);
+                   
+                   
+                   // upload to Cloudinary
+                   await cloudinary.uploader.upload(
+                       files[0].path,
+                       (cloudinaryErr, cloudinaryResult) => {
+                           if(cloudinaryErr) {
+                               console.log(cloudinaryErr);
+                               res.json(
+                                   {
+                                       status: "not ok",
+                                       message: "Error occured during image upload"
+                                   }
+                               )
+                           }
 
-                    const files = Object.values(req.files);
-                    
-                    
-                    // upload to Cloudinary
-                    await cloudinary.uploader.upload(
-                        files[0].path,
-                        (cloudinaryErr, cloudinaryResult) => {
-                            if(cloudinaryErr) {
-                                console.log(cloudinaryErr);
-                                res.json(
-                                    {
-                                        status: "not ok",
-                                        message: "Error occured during image upload"
-                                    }
-                                )
-                            } else {
-                                // Include the image url in newDocument
-                                newDocument.productImage = cloudinaryResult.url;
-                                console.log('newDocument.productImage', newDocument.productImage)
-                            }
-                        }
-                    )
-                };
+                            // Include the image url in newDocument
+                            else {
+                               newDocument.productImage = cloudinaryResult.url;
+                               console.log('newDocument.productImage',newDocument.productImage )
+                           }
+                       }
+                   )
+               };
+  
+                          // Create document in database
+                                   ProductModel
+                                   .create(newDocument)
+                                   // If successful...
+                                   .then(
+                                       function(createdDocument) {
+                                           // Express sends this...
+                                          res.json({
+                                              status: "ok",
+                                              createdDocument
+                                           });
+                                       }
+                                   )
+                                   // If problem occurs, the catch the problem...
+                                   .catch(
+                                       function(dbError) {
+                                           // For the developer
+                                           console.log('An error occured during .create()', dbError);
 
-                // If product is unique...
-                if(!dbDocument) {
-           
-                    // Create the user's account with hashed password
-                    ProductModel
-                    .create(newDocument)
-                    // If successful...
-                    .then(
-                        function(createdDocument) {
-                            // Express sends this...
-                           res.json({
-                               status: "ok",
-                               createdDocument
-                            });
-                        }
-                    )
-                    // If problem occurs, the catch the problem...
-                    .catch(
-                        function(dbError) {
-                            // For the developer
-                            console.log('An error occured during .create()', dbError);
-
-                            // For the client (frontend app)
-                            res.status(503).json(
-                                {
-                                    "status": "not ok",
-                                    "message": "Something went wrong with db"
-                                }
-                            )
-                        }
-                    )
-
-                }
-                // If product is NOT unique....
-                else { 
-                    // reject the request
-                    res.status(403).json(
-                        {
-                            "status": "not ok",
-                            "message": "Product already exists"
-                        }
-                    )
-                }
-            }
-        )
-        .catch(
-            function(dbError) {
-
-                // For the developer
-                console.log(
-                    'An error occured', dbError
-                );
-
-                // For the client (frontend app)
-                res.status(503).json(
-                    {
-                        "status": "not ok",
-                        "message": "Something went wrong with db"
+                                           // For the client (frontend app)
+                                           res.status(503).json(
+                                               {
+                                                   "status": "not ok",
+                                                   "message": "Something went wrong with db"
+                                               }
+                                           )
+                                       }
+                                   )
+                             }
+                         )
                     }
-                )
-
-            }
-        )
-        
-    }
 );
+                    
+                             
 
 // products/listing
 router.post('/list',

@@ -12,38 +12,35 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
 const Products = () => {
-    const [productDetails, setProductData] = useState();
+
+    const [productDetails, setProductDetails] = useState();
 
     useEffect(
-        function(){
-            fetch(
-                `${process.env.REACT_APP_BACKEND_ENDPOINT}/products/list`,
-                {
-                    method: "POST"
-                }
-            )
-            // This will recieve string data and convert to json
-            .then(
-                function(backendReponse) {
-                    return backendReponse.json()
-                }
-            )
-            // This will receie the converted json
-            .then(
-                function(jsonResponse) {
-                    setProductData(jsonResponse);
-                }
-            )
-            // This will catch errors if any
-            .catch(
-                function(backendError) {
-                    console.log('backendError', backendError)
-                }
-            )
-        }, []
+      function () {
+        fetch(`${process.env.REACT_APP_BACKEND_ENDPOINT}/products/list`, {
+          method: "POST"
+        
+        })
+          // This will recieve string data and convert to json
+          .then(function (backendReponse) {
+            return backendReponse.json();
+          })
+          // This will receie the converted json
+          .then(function (jsonResponse) {
+            setProductDetails(jsonResponse);
+          })
+          // This will catch errors if any
+          .catch(function (backendError) {
+            console.log("backendError", backendError);
+          });
+      },
+  
+      // This array is empty because useEffect will run once only
+      []
     );
+  
+    if (productDetails) {
 
-    if(productDetails){
         const products = productDetails.map(product => {
             return (
                 <div key={product.id}>
@@ -61,7 +58,7 @@ const Products = () => {
                             <Typography variant="body2" color="text.secondary">
                             {product.category}
                             </Typography>
-                            <p>Price: AED{product.price}</p>
+                            <p>Price: AED {product.price}</p>
                         </CardContent>
                         <CardActions>
                             <Button size="small">Add To Cart</Button>
@@ -71,7 +68,7 @@ const Products = () => {
                 </div>
             );
         });
-
+    
         return (
             <Box className="listProducts" sx={{ my: 6, mx: 6 }}>
                 <Container maxWidth="lg" sx={{ py: 6, px: 4}}>
@@ -79,14 +76,14 @@ const Products = () => {
                     {products}
                 </Container>
             </Box>
-        ); 
+        );
+
     }
-    else{
-        return(
-            <p>Loading...</p>
-        )
+     else {
+      return <p>Loading...</p>;
     }
 
+   
 };
 
 export default Products;
