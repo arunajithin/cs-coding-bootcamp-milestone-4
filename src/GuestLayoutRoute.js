@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Box from '@mui/material/Box';
 import { Redirect, Route } from 'react-router-dom';
 import ResponsiveHeader from './ResponsiveHeader';
@@ -8,9 +8,9 @@ import { UserContext } from './UserContext';
 
 function GuestLayoutRoute(props) {
 
-    const {loggedIn} = UserContext;
+    const {loggedIn} = useContext(UserContext);
 
-    if (loggedIn === false) {
+    if (!loggedIn) {
         return (
             <Box sx={{
                 display: 'flex',

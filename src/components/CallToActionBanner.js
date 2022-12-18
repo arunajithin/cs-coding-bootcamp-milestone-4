@@ -3,9 +3,9 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Button from "@mui/material/Button";
-import styles from './styles.module.css';
+import styles from '../styles.module.css';
 
-import StoreImage from './assets/images/store-graphics.svg';
+import StoreImage from '../assets/images/store-graphics.svg';
 
 function CallToActionBanner(){
     return(

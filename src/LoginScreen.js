@@ -110,7 +110,7 @@ function LoginScreen() {
         return <li>{str}</li>
     }
 
-    if(loggedIn || formState === "success") {
+    if(formState === "success") {
         return (
             <Redirect to="/" />
         )
