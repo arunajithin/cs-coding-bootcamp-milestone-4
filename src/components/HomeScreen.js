@@ -95,7 +95,7 @@ function HomeScreen(){
 {productCards.map((cards,i) => (
     <Grid item xl={2}>
 
-     <Card sx={{ maxWidth: 350 }}>
+     <Card sx={{ maxWidth: 350 }} key={cards.i}>
       <CardActionArea>
         <CardMedia
           component="img"

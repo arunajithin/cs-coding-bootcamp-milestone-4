@@ -1,12 +1,20 @@
 const express = require('express');
 const router = express.Router();
 
+const bcryptjs = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const cloudinary = require('cloudinary').v2;
+
+// This is similar to salt in bcrypt
+const jwtSecret = process.env.JWT_SECRET;
+
 const ProductModel = require('../models/ProductModel');
+const passport = require('passport');
 
 // products/add
 router.post('/add',
     function (req, res) {
-        let newDocument = {
+        const newDocument = {
             "sku": req.body.sku,
             "productName": req.body.productName,
             "productDescription": req.body.productDescription,
@@ -21,19 +29,102 @@ router.post('/add',
             "quantity": req.body.quantity
         }
 
+
         ProductModel
-            .create(newDocument)
-            .then(
-                function (dbDocument) {
-                    res.json(dbDocument)
+        .findOne( { sku: newDocument['sku']} )
+        .then(
+            async function (dbDocument) {
+                // If avatar file is included...
+                if( Object.values(req.files).length > 0 ) {
+
+                    const files = Object.values(req.files);
+                    
+                    
+                    // upload to Cloudinary
+                    await cloudinary.uploader.upload(
+                        files[0].path,
+                        (cloudinaryErr, cloudinaryResult) => {
+                            if(cloudinaryErr) {
+                                console.log(cloudinaryErr);
+                                res.json(
+                                    {
+                                        status: "not ok",
+                                        message: "Error occured during image upload"
+                                    }
+                                )
+                            } else {
+                                // Include the image url in newDocument
+                                newDocument.productImage = cloudinaryResult.url;
+                                console.log('newDocument.productImage', newDocument.productImage)
+                            }
+                        }
+                    )
+                };
+
+                // If product is unique...
+                if(!dbDocument) {
+           
+                    // Create the user's account with hashed password
+                    ProductModel
+                    .create(newDocument)
+                    // If successful...
+                    .then(
+                        function(createdDocument) {
+                            // Express sends this...
+                           res.json({
+                               status: "ok",
+                               createdDocument
+                            });
+                        }
+                    )
+                    // If problem occurs, the catch the problem...
+                    .catch(
+                        function(dbError) {
+                            // For the developer
+                            console.log('An error occured during .create()', dbError);
+
+                            // For the client (frontend app)
+                            res.status(503).json(
+                                {
+                                    "status": "not ok",
+                                    "message": "Something went wrong with db"
+                                }
+                            )
+                        }
+                    )
+
                 }
-            )
-            .catch(
-                function(error) {
-                    console.log('/addproduct error', error);
-                    res.send('An error occured');
+                // If product is NOT unique....
+                else { 
+                    // reject the request
+                    res.status(403).json(
+                        {
+                            "status": "not ok",
+                            "message": "Product already exists"
+                        }
+                    )
                 }
-            )
+            }
+        )
+        .catch(
+            function(dbError) {
+
+                // For the developer
+                console.log(
+                    'An error occured', dbError
+                );
+
+                // For the client (frontend app)
+                res.status(503).json(
+                    {
+                        "status": "not ok",
+                        "message": "Something went wrong with db"
+                    }
+                )
+
+            }
+        )
+        
     }
 );
 
