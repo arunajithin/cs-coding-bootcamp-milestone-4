@@ -12,14 +12,14 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
 const Products = () => {
-    const [productData, setProductData] = useState();
+    const [productDetails, setProductData] = useState();
 
     useEffect(
         function(){
             fetch(
                 `${process.env.REACT_APP_BACKEND_ENDPOINT}/products/list`,
                 {
-                    'method': 'POST'
+                    method: "POST"
                 }
             )
             // This will recieve string data and convert to json
@@ -43,8 +43,8 @@ const Products = () => {
         }, []
     );
 
-    if(productData){
-        const productList = productData.map(product => {
+    if(productDetails){
+        const products = productDetails.map(product => {
             return (
                 <div key={product.id}>
                     <Card sx={{ maxWidth: 345 }}>
@@ -76,7 +76,7 @@ const Products = () => {
             <Box className="listProducts" sx={{ my: 6, mx: 6 }}>
                 <Container maxWidth="lg" sx={{ py: 6, px: 4}}>
                     <h1>Products Page</h1>
-                    {productList}
+                    {products}
                 </Container>
             </Box>
         ); 
@@ -87,6 +87,6 @@ const Products = () => {
         )
     }
 
-}
+};
 
 export default Products;

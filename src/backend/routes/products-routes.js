@@ -1,15 +1,8 @@
 const express = require('express');
 const router = express.Router();
-
-const bcryptjs = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 const cloudinary = require('cloudinary').v2;
 
-// This is similar to salt in bcrypt
-const jwtSecret = process.env.JWT_SECRET;
-
 const ProductModel = require('../models/ProductModel');
-const passport = require('passport');
 
 // products/add
 router.post('/add',
