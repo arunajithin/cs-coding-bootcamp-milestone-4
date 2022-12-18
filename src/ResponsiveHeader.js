@@ -20,7 +20,6 @@ import { createTheme, ThemeProvider  } from '@mui/material/styles';
 import Container from '@mui/material/Container';
 import LoginScreen from './LoginScreen.js';
 import RegistrationScreen from './RegistrationScreen';
-import { Link } from 'react-router-dom';
 
 //NavBar
 const pages = ['Home', 'Fruits & Vegetables', 'Dairy & Eggs', 'Meat & Poultry', 'Baked Products',];
@@ -86,26 +85,26 @@ export default function PrimarySearchAppBar() {
     setValue(newValue);
   };
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [anchorEl2, setAnchorEl2] = React.useState(null);
+  const [anchorel, setanchorel] = React.useState(null);
+  const [anchorel2, setanchorel2] = React.useState(null);
 
-  const isMenuOpen = Boolean(anchorEl);
-  const isMenuOpen2 = Boolean(anchorEl2);
+  const isMenuOpen = Boolean(anchorel);
+  const isMenuOpen2 = Boolean(anchorel2);
 
 
   const handleProfileMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
+    setanchorel(event.currentTarget);
   };
   const handleProfileMenuOpen2 = (event) => {
-    setAnchorEl2(event.currentTarget);
+    setanchorel2(event.currentTarget);
   };
 
 
   const handleMenuClose = () => {
-    setAnchorEl(null);
+    setanchorel(null);
   };
   const handleMenuClose2 = () => {
-    setAnchorEl2(null);
+    setanchorel2(null);
   };
 
 
@@ -113,7 +112,7 @@ export default function PrimarySearchAppBar() {
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
-      anchorEl={anchorEl}
+      anchorel={anchorel}
       anchorOrigin={{
         vertical: 'top',
         horizontal: 'right',
@@ -132,7 +131,7 @@ export default function PrimarySearchAppBar() {
   );
   const renderMenu2 = (
     <Menu
-      anchorEl2={anchorEl2}
+      anchorel2={anchorel2}
       anchorOrigin={{
         vertical: 'top',
         horizontal: 'right',
