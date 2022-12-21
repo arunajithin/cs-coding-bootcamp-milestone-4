@@ -4,7 +4,6 @@ import { Redirect, Route } from 'react-router-dom';
 import ResponsiveHeader from './ResponsiveHeader';
 import Footer from './Footer';
 import { UserContext } from './UserContext';
-import HeaderScreen from './HeaderScreen';
 
 
 function LayoutRoute(props) {
@@ -18,7 +17,6 @@ function LayoutRoute(props) {
                 flexDirection: 'column',
                 minHeight: '100vh',
             }}>
-                <HeaderScreen />
                 <ResponsiveHeader {...props}/>
                 <Route path={props.path} exact={props.exact} component={props.component} />
                 <Footer />

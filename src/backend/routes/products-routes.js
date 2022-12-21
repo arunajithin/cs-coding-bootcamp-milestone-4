@@ -116,6 +116,14 @@ router.put('/update',
 
 function(req,res){
 
+    const formData = {
+        'productName': req.body.productName,
+        'productDescription': req.body.productDescription,
+        'brand': req.body.brand,
+        'price': req.body.price,
+        'category': req.body.category,
+    }
+
     let updates = {}
     
      if (req.body.productName){ 
@@ -150,7 +158,7 @@ function(req,res){
     };
 
 
-    UserModel
+    ProductModel
     .findOneAndUpdate(
         {
             "sku": req.body.sku
@@ -164,8 +172,33 @@ function(req,res){
         }
     )
     .then(
-        function(dbDocument) {
-            res.json(dbDocument)
+        async function (dbDocument) {
+            // If avatar file is included...
+            if( Object.values(req.files).length > 0 ) {
+
+                const files = Object.values(req.files);
+                
+                
+                // upload to Cloudinary
+                await cloudinary.uploader.upload(
+                    files[0].path,
+                    (cloudinaryErr, cloudinaryResult) => {
+                        if(cloudinaryErr) {
+                            console.log(cloudinaryErr);
+                            res.json(
+                                {
+                                    status: "not ok",
+                                    message: "Error occured during image upload"
+                                }
+                            )
+                        } else {
+                            // Include the image url in formData
+                            formData.productImage = cloudinaryResult.url;
+                            console.log('formData.productImage', formData.productImage)
+                        }
+                    }
+                )
+            };
         }
     )
     .catch(
