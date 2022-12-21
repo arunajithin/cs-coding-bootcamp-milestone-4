@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+mongoose.set("strictQuery", false);
+
 
 //Schema
 const UserSchema = new mongoose.Schema(
@@ -17,7 +19,7 @@ const UserSchema = new mongoose.Schema(
         },
         phone: {
             type:String,
-            required: true,
+            required: false,
         },
         password: {
             type:String,
@@ -35,7 +37,11 @@ const UserSchema = new mongoose.Schema(
         dob: {
             type:Date,
             required: false,
-        }
+        },
+        avatar: {
+            type:String,
+            required: false,
+        },
     }
 );
 

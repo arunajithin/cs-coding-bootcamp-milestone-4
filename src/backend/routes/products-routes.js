@@ -26,7 +26,7 @@ router.post('/add',
        ProductModel
        .findOne( { sku: newDocument['sku']} )
        .then(
-           async function (dbDocument) {
+           async function () {
                // If avatar file is included...
                if( Object.values(req.files).length > 0 ) {
 
@@ -45,7 +45,6 @@ router.post('/add',
                                        message: "Error occured during image upload"
                                    }
                                )
-                               return;
                            }
 
                             // Include the image url in newDocument
@@ -53,16 +52,12 @@ router.post('/add',
                                newDocument.productImage = cloudinaryResult.url;
                                console.log('newDocument.productImage',newDocument.productImage )
                            }
-                          return; 
                        }
                    )
-                   
                };
   
-                  // If sku is unique...
-                  if(!dbDocument) {
                           // Create document in database
-                                    ProductModel
+                                   ProductModel
                                    .create(newDocument)
                                    // If successful...
                                    .then(
@@ -87,46 +82,12 @@ router.post('/add',
                                                    "message": "Something went wrong with db"
                                                }
                                            )
-                                           return;
                                        }
-                                    )
-                                   return; 
-                                }
-                      // If sku is NOT unique....
-                else { 
-                    // reject the request
-                    res.status(403).json(
-                        {
-                            "status": "not ok",
-                            "message": "Product already exists"
-                        }
-                    )
-                }
-            }
-        )
-        .catch(
-            function(dbError) {
-
-                // For the developer
-                console.log(
-                    'An error occured', dbError
-                );
-
-                // For the client (frontend app)
-                res.status(503).json(
-                    {
-                        "status": "not ok",
-                        "message": "Something went wrong with db"
+                                   )
+                             }
+                         )
                     }
-                )
-                return;
-
-            }
-        )
-    }
 );
-           
-
                     
                              
 
@@ -216,5 +177,31 @@ function(req,res){
     }  
 
 );
+
+router.post('/find',
+    function(req, res) {
+
+        // req.body.brand
+        
+        ProductModel
+        .find(
+            { "category": req.body.category }
+        )
+        .then(
+            function(dbDocument) {
+                res.json(dbDocument)
+            }
+        )
+        .catch(
+            function(error) {
+                console.log('/findproduct error', error);
+
+                res.send('An error occured');
+            }
+        );
+
+    }
+);
+
 
 module.exports = router;
