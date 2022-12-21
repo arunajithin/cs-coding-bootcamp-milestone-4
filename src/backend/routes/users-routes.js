@@ -4,6 +4,8 @@ const router = express.Router();
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const cloudinary = require('cloudinary').v2;
+const passport = require('passport');
+
 
 // This is similar to salt in bcrypt
 const jwtSecret = process.env.JWT_SECRET
@@ -282,6 +284,28 @@ router.put('/update',
             function(error){
                 console.log('/users/update error', error);
                 res.send('An error occured');
+            }
+        )
+    }
+);
+
+router.post('/find',
+    passport.authenticate('jwt', {session: false}),
+    function(req, res) {
+        UserModel
+        .findById(req.user.id)
+        .then(
+            function(dbDocument) {
+                res.json(dbDocument)
+            }
+        )
+        .catch(
+            function(error) {
+
+                console.log('/find error', error);
+
+                res.send('An error occured');
+
             }
         )
     }

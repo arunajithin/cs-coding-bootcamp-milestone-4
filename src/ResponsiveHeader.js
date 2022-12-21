@@ -1,31 +1,25 @@
 import * as React from 'react';
 import { Link as ReactLink } from 'react-router-dom';
 import { styled, alpha } from '@mui/material/styles';
-import * as React from 'react';
-import { Link as ReactLink } from 'react-router-dom';
-import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import InputBase from '@mui/material/InputBase';
 import Badge from '@mui/material/Badge';
-import MenuItem from '@mui/material/MenuItem';
 import InputBase from '@mui/material/InputBase';
-import Badge from '@mui/material/Badge';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import logo from './assets/images/Wide-and-Full.svg';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Button from '@mui/material/Button';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import { createTheme, ThemeProvider  } from '@mui/material/styles';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Container from '@mui/material/Container';
-import LoginScreen from './LoginScreen.js';
-import RegistrationScreen from './RegistrationScreen';
+import { UserContext } from './UserContext';
+import Avatar from '@mui/material/Avatar';
+import { useEffect, useState } from "react";
+
+
 
 //NavBar
 const pages = ['Home', 'Fruits & Vegetables', 'Dairy & Eggs', 'Meat & Poultry', 'Baked Products',];
@@ -86,148 +80,106 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function PrimarySearchAppBar() {
+  const [avatarField, setAvatar] = useState();
+
+useEffect(
+  function () {
+    fetch(`${process.env.REACT_APP_BACKEND_ENDPOINT}/users/find`, {
+      method: "PUT"
+
+    })
+      // This will recieve string data and convert to json
+      .then(function (backendReponse) {
+        return backendReponse.json();
+      })
+      // This will receie the converted json
+      .then(function (jsonResponse) {
+        setAvatar(jsonResponse);
+      })
+      // This will catch errors if any
+      .catch(function (backendError) {
+        console.log("backendError", backendError);
+      });
+  },
+
+  // This array is empty because useEffect will run once only
+  []
+);
   const [value, setValue] = React.useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  const [anchorel, setanchorel] = React.useState(null);
-  const [anchorel2, setanchorel2] = React.useState(null);
-
-  const isMenuOpen = Boolean(anchorel);
-  const isMenuOpen2 = Boolean(anchorel2);
-
-
-  const handleProfileMenuOpen = (event) => {
-    setanchorel(event.currentTarget);
-  };
-  const handleProfileMenuOpen2 = (event) => {
-    setanchorel2(event.currentTarget);
-  };
-
-
-  const handleMenuClose = () => {
-    setanchorel(null);
-  };
-  const handleMenuClose2 = () => {
-    setanchorel2(null);
-  };
-
-
-
-  const menuId = 'primary-search-account-menu';
-  const renderMenu = (
-    <Menu
-      anchorel={anchorel}
-      anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-      <MenuItem onClick={handleMenuClose} to={"/register"} component={RegistrationScreen}></MenuItem>
-    </Menu>
-  );
-  const renderMenu2 = (
-    <Menu
-      anchorel2={anchorel2}
-      anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      open={isMenuOpen2}
-      onClose={handleMenuClose2}
-    >
-      <MenuItem onClick={handleMenuClose2} to={"/login"} component={LoginScreen}></MenuItem>
-    </Menu>
-  );
-
+  const { loggedIn, logoutUser } = React.useContext(UserContext);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" sx={{ backgroundColor: "#ffffff" }}>
-      <ThemeProvider theme={theme}>
-        <Container maxWidth="xl">
-        <Toolbar>
-          <Box>
-            <a href="index.html">
-              <img width="200px" height="50px" src={logo} alt={"Logo"}/>
-            </a>
-          </Box>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ display: { xs: 'none', sm: 'block' } }}
-          >
-            MUI
-          </Typography>
-          <Box sx={{ border: 1, borderColor: 'grey.400', borderRadius: 1, flexWrap: 'wrap'}}>
-            <Search>
-              <SearchIconWrapper sx={{ color: "black" }}>
-                <SearchIcon />
-              </SearchIconWrapper>
-              <StyledInputBase sx={{ color: "black" }}
-                placeholder="Search for something delightful..."
-                inputProps={{ 'aria-label': 'search' }}
-              />
-            </Search>
-          </Box>
-          <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <IconButton
-              size="large"
-              aria-label="cart menu"
-              color="black"
-            >
-              <Badge badgeContent={0} color="error">
-                <ShoppingCartIcon />
-              </Badge>
-            </IconButton>
-          </Box>
-          <Box sx={{ marginLeft: '20px', flexWrap: 'wrap' }}>
-            <Button sx={{backgroundColor: "primary"}} size="small" variant="contained" onClick={handleProfileMenuOpen}>Sign up</Button>
-            <Button size="small" variant="text" onClick={handleProfileMenuOpen2}>Log in</Button>
-          </Box>
-
-        </Toolbar>
-        </Container>
+        <ThemeProvider theme={theme}>
+          <Container maxWidth="xl">
+            <Toolbar>
+              <Box sx={{marginRight: "50px"}}>
+                <a href="/">
+                  <img width="200px" height="50px" src={logo} alt={"Logo"}/>
+                </a>
+              </Box>
+              <Box sx={{ border: 1, borderColor: 'grey.400', borderRadius: 1, flexWrap: 'wrap' }}>
+                <Search>
+                  <SearchIconWrapper sx={{ color: "black" }}>
+                    <SearchIcon />
+                  </SearchIconWrapper>
+                  <StyledInputBase sx={{ color: "black" }}
+                    placeholder="Search for something delightful..."
+                    inputProps={{ 'aria-label': 'search' }}
+                  />
+                </Search>
+              </Box>
+              <Box sx={{ flexGrow: 1 }} />
+              <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+                <IconButton
+                  size="large"
+                  aria-label="cart menu"
+                  color="black"
+                >
+                  <Badge badgeContent={0} color="error">
+                    <ShoppingCartIcon />
+                  </Badge>
+                </IconButton>
+              </Box>
+              {
+                loggedIn ?
+                  <Box sx={{ marginLeft: '40px', display:"flex", flexWrap: 'wrap' }}>
+                    <Avatar src={avatarField} sx={{ marginRight: '40px'}} />
+                    <Button sx={{ backgroundColor: "primary" }} size="small" variant="contained" onClick={logoutUser}>Logout</Button>
+                  </Box> :
+                  <Box sx={{ marginLeft: '20px', flexWrap: 'wrap' }}>
+                    <Button sx={{ backgroundColor: "primary" }} size="small" variant="contained" component={ReactLink} to={"/register"}>Sign up</Button>
+                    <Button size="small" variant="text" component={ReactLink} to={"/login"}>Log in</Button>
+                  </Box>
+              }
+            </Toolbar>
+          </Container>
         </ThemeProvider>
       </AppBar>
-      <AppBar position="static" sx={{ backgroundColor: "#f9fff3", boxShadow: '0px 2px 5px #bcbaba'}}>
-      <ThemeProvider theme={theme}>
-        <Toolbar>
-        <Box sx={{ width: '100%' }}>
-      <Tabs value={value} onChange={handleChange} centered indicatorColor="secondary" textColor="primary">
-        {pages.map((page, i) => (
-           <Tab 
-           sx={{fontWeight: 'bold'}} 
-           label={page}
-           component = {ReactLink}
-           to = {pagesPaths[i]}
-          key={page} />
-        )
-        )}
-      </Tabs>
-    </Box>
-        </Toolbar>
+      <AppBar position="static" sx={{ backgroundColor: "#f9fff3", boxShadow: '0px 2px 5px #bcbaba' }}>
+        <ThemeProvider theme={theme}>
+          <Toolbar>
+            <Box sx={{ width: '100%' }}>
+              <Tabs value={value} onChange={handleChange} centered indicatorColor="secondary" textColor="primary">
+                {pages.map((page, i) => (
+                  <Tab
+                    sx={{ fontWeight: 'bold' }}
+                    label={page}
+                    component={ReactLink}
+                    to={pagesPaths[i]}
+                    key={page} />
+                )
+                )}
+              </Tabs>
+            </Box>
+          </Toolbar>
         </ThemeProvider>
       </AppBar>
-      {renderMenu}
-      {renderMenu2}
     </Box>
   );
 }

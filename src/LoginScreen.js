@@ -9,7 +9,19 @@ import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+const theme = createTheme({
+    palette: {
+        primary: {
+            main: '#7D9113',
+        },
+        secondary: {
+            main: '#7D9113',
+        },
+    },
+}
+);
 
 function LoginScreen() {
 
@@ -25,7 +37,7 @@ function LoginScreen() {
     var emailField;
     var passwordField;
 
-     
+
     // Create a JS object like an HTML form element 
     var formData = new FormData();
 
@@ -35,18 +47,18 @@ function LoginScreen() {
         // 2. Validate the fields
         var errors = [];
 
-        if(emailField.value.length === 0) {
+        if (emailField.value.length === 0) {
             errors.push('Please enter your email');
         }
 
-        if(passwordField.value.length === 0) {
+        if (passwordField.value.length === 0) {
             errors.push('Please enter your password');
         }
 
         // 3. If any field is not validated, go to "client error"
-        if( errors.length > 0 ) {
+        if (errors.length > 0) {
             setFormState("client error");
-            setErrorsState( errors );
+            setErrorsState(errors);
         }
 
         // 4. If all fields are valid
@@ -66,43 +78,43 @@ function LoginScreen() {
                     'body': formData
                 }
             )
-            .then(
-                function(backendResponse) {
-                    // Convert the HTTP string response to JSON
-                    return backendResponse.json();
-                }
-            )
-            .then(
-                // 7. If backend sends success, go to "success"
-                function(jsonResponse) {
-                    if(jsonResponse.status === "ok") {
-                        console.log('backend response /users/login', jsonResponse)
-                        setFormState("success");
-
-                        // Update the user context
-                        updateUser(
-                            {
-                                "email": jsonResponse.message.email,
-                                "firstName": jsonResponse.message.firstName,
-                                "lastName": jsonResponse.message.lastName,
-                                "avatar": jsonResponse.message.avatar,
-                                "jsonwebtoken": jsonResponse.message.jsonwebtoken,
-                                "loggedIn": true
-                            }
-                        )
+                .then(
+                    function (backendResponse) {
+                        // Convert the HTTP string response to JSON
+                        return backendResponse.json();
                     }
-                    else {
+                )
+                .then(
+                    // 7. If backend sends success, go to "success"
+                    function (jsonResponse) {
+                        if (jsonResponse.status === "ok") {
+                            console.log('backend response /users/login', jsonResponse)
+                            setFormState("success");
+
+                            // Update the user context
+                            updateUser(
+                                {
+                                    "email": jsonResponse.message.email,
+                                    "firstName": jsonResponse.message.firstName,
+                                    "lastName": jsonResponse.message.lastName,
+                                    "avatar": jsonResponse.message.avatar,
+                                    "jsonwebtoken": jsonResponse.message.jsonwebtoken,
+                                    "loggedIn": true
+                                }
+                            )
+                        }
+                        else {
+                            setFormState("backend error");
+                        }
+                    }
+                )
+                .catch(
+                    // 8. If backends sends error, go to "backend error"
+                    function (backendError) {
+                        console.log('backendError at /users/login', backendError)
                         setFormState("backend error");
                     }
-                }
-            )
-            .catch(
-                // 8. If backends sends error, go to "backend error"
-                function(backendError) {
-                    console.log('backendError at /users/login', backendError)
-                    setFormState("backend error");
-                }
-            )
+                )
         }
     }
 
@@ -110,7 +122,7 @@ function LoginScreen() {
         return <li>{str}</li>
     }
 
-    if(formState === "success") {
+    if (formState === "success") {
         return (
             <Redirect to="/" />
         )
@@ -118,68 +130,71 @@ function LoginScreen() {
     else {
         return (
             <Container maxWidth="sm">
-                <Box pt={8}>
-                    <Typography component="h1" variant="h2">
-                        Login
-                    </Typography>
-                </Box>
+                <ThemeProvider theme={theme}>
 
-                <Box mt={4} mb={2}>
-                    <FormControl fullWidth sx={{ mb: 2 }}>
-                        <TextField 
-                        inputRef={ 
-                            function( thisElement ){
-                                emailField = thisElement;
-                            } 
+                    <Box pt={8}>
+                        <Typography component="h1" variant="h2">
+                            Login
+                        </Typography>
+                    </Box>
+
+                    <Box mt={4} mb={2}>
+                        <FormControl fullWidth sx={{ mb: 2 }}>
+                            <TextField
+                                inputRef={
+                                    function (thisElement) {
+                                        emailField = thisElement;
+                                    }
+                                }
+                                label="Email" required={true} />
+                        </FormControl>
+
+                        <FormControl fullWidth sx={{ mb: 2 }}>
+                            <TextField
+                                inputRef={
+                                    function (thisElement) {
+                                        passwordField = thisElement;
+                                    }
+                                }
+                                type="password"
+                                label="Password" required={true} />
+                        </FormControl>
+                    </Box>
+
+                    <Box display="flex">
+
+                        {
+                            formState !== "loading" &&
+                            <Button onClick={login} size="large" variant="contained">Send</Button>
                         }
-                        label="Email" required={true}/>
-                    </FormControl>
 
-                    <FormControl fullWidth sx={{ mb: 2 }}>
-                        <TextField 
-                        inputRef={ 
-                            function( thisElement ){
-                                passwordField = thisElement;
-                            } 
+                        {
+                            formState === "loading" &&
+                            <CircularProgress />
                         }
-                        type="password"
-                        label="Password" required={true} />
-                    </FormControl>
-                </Box>
+                    </Box>
 
-                <Box display="flex">
-                    
-                    {
-                        formState !== "loading" &&
-                        <Button onClick={login} size="large" variant="contained">Send</Button>
-                    }
-                    
-                    {
-                        formState === "loading" &&
-                        <CircularProgress />
-                    }
-                </Box>
+                    <Box mt={2}>
 
-                <Box mt={2}>
+                        {
+                            formState === "client error" &&
+                            <Alert severity="error">
+                                <ul>
+                                    {
+                                        errorsState.map(addListItem)
+                                    }
+                                </ul>
+                            </Alert>
+                        }
 
-                    { 
-                        formState === "client error" &&
-                        <Alert severity="error">
-                            <ul>
-                            {
-                                errorsState.map(addListItem)
-                            }
-                            </ul>
-                        </Alert>
-                    }
-
-                    {
-                        formState === "success" &&
-                        <Alert severity="success">
-                            You have logged in successfully!
-                        </Alert>
-                    }
-                </Box>
+                        {
+                            formState === "success" &&
+                            <Alert severity="success">
+                                You have logged in successfully!
+                            </Alert>
+                        }
+                    </Box>
+                </ThemeProvider>
             </Container>
         )
     }

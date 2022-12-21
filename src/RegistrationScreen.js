@@ -7,6 +7,19 @@ import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import { createTheme, ThemeProvider  } from '@mui/material/styles';
+
+const theme = createTheme({
+    palette: {
+      primary: {
+        main: '#7D9113',
+      },
+      secondary: {
+        main: '#7D9113',
+      },
+    },
+  }
+  );
 
 function RegistrationScreen() {
 
@@ -80,6 +93,8 @@ function RegistrationScreen() {
             formData.append('lastName', lastNameField.value);
             formData.append('email', emailField.value);
             formData.append('password', passwordField.value);
+            formData.append('avatar', avatarField.value);
+
 
             fetch(
                 `${process.env.REACT_APP_BACKEND_ENDPOINT}/users/register`,
@@ -123,6 +138,7 @@ function RegistrationScreen() {
 
     return (
         <Container maxWidth="sm">
+                            <ThemeProvider theme={theme}>
             <Box pt={8}>
                 <Typography component="h1" variant="h2">
                     Registration
@@ -179,7 +195,6 @@ function RegistrationScreen() {
                 </Typography>
 
                 <br/>
-
                 <Button size="small" variant="contained" component="label">
                     Upload
                     <input 
@@ -190,14 +205,13 @@ function RegistrationScreen() {
                         multiple type="file" 
                     />
                 </Button>
-
             </Box>
 
             <Box display="flex">
                 
                 {
                     formState !== "loading" &&
-                    <Button onClick={register} size="large" variant="contained">Send</Button>
+                    <Button onClick={register} size="large" variant="contained">Register</Button>
                 }
                 
                 {
@@ -236,6 +250,7 @@ function RegistrationScreen() {
                     </Alert>
                 }
             </Box>
+            </ThemeProvider>
         </Container>
     )
 

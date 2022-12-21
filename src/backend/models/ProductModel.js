@@ -46,7 +46,7 @@ const ProductSchema = new mongoose.Schema(
         },
         shelfLife: {
             type:Number,
-            required: true,
+            required: false,
         },
         quantity: {
             type:Number,

@@ -178,4 +178,29 @@ function(req,res){
 
 );
 
+router.post('/find',
+    function(req, res) {
+
+        // req.body.brand
+        
+        ProductModel
+        .find(
+            { "category": req.body.category }
+        )
+        .then(
+            function(dbDocument) {
+                res.json(dbDocument)
+            }
+        )
+        .catch(
+            function(error) {
+                console.log('/findproduct error', error);
+
+                res.send('An error occured');
+            }
+        );
+
+    }
+);
+
 module.exports = router;
