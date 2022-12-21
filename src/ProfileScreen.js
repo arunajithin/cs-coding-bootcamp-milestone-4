@@ -302,22 +302,6 @@ function ProfileScreen() {
                 }
             </Box>
         </Container>
-
-    //   <Grid container padding="5%" spacing={2}>
-    //      <Grid item>
-    // <Box  >
-    //     <Avatar src= {userDetails.avatar} style={borderRadius} alt="profile"    sx={{ width: "100%", height:"auto" }}/>
-    //     </Box>
-    //     </Grid>
-    //     <Grid item>
-    //     <FormControl>
-    //     <TextField fullWidth id="outlined-basic" label={userDetails.firstName} variant="standard" margin="normal"/>
-    //     <TextField id="outlined-basic" label={userDetails.lastName} variant="standard" margin="normal"/>
-    //     <TextField id="outlined-basic" label={userDetails.email} variant="standard" margin="normal"/>
-    //     <TextField id="outlined-basic" label="password" variant="standard" margin="normal"/>
-    //   </FormControl>
-    //   </Grid>
-    //   </Grid>
     );
   } else {
     return <p>Loading...</p>;
