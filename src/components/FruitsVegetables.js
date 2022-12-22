@@ -74,6 +74,8 @@ const Products = () => {
                 <Grid item xs={12} md={4}>
                   <Card>
                     <CardMedia sx={{ width: "250px", height: "250px", margin: "auto", objectFit: "contain" }}
+                  <Card>
+                    <CardMedia sx={{ width: "250px", height: "250px", margin: "auto", objectFit: "contain" }}
                       component="img"
                       image={product.productImage}
                       alt={product.productName}

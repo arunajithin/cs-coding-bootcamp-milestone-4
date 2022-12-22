@@ -11,6 +11,8 @@ import HealthBeauty from './components/HealthBeauty';
 import Snacks from './components/Snacks';
 import Cleaning from './components/CleaningSet';
 import Legumes from './components/Legumes';
+import TermsConditions from './components/TermsConditions.js';
+import PrivacyPolicy from './components/PrivacyPolicy.js';
 import RegistrationScreen from './RegistrationScreen';
 import LoginScreen from './LoginScreen';
 import LayoutRoute from './LayoutRoute';
@@ -35,6 +37,8 @@ function App() {
           <LayoutRoute path='/legumes' exact={true} component={Legumes}/>
           <LayoutRoute path='/snacks' exact={true} component={Snacks}/>
           <LayoutRoute path='/products' exact={true} component={Products}/>
+          <LayoutRoute path='/termsConditions' exact={true} component={TermsConditions}/>
+          <LayoutRoute path='/privacyPolicy' exact={true} component={PrivacyPolicy}/>
           <PrivateLayoutRoute path="/profile" exact={true} component={ProfileScreen} />
           <GuestLayoutRoute path="/register" exact={true} component={RegistrationScreen} />
           <GuestLayoutRoute path="/login" exact={true} component={LoginScreen} />
