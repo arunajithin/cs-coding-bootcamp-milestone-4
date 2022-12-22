@@ -6,6 +6,7 @@ const cors = require('cors');
 const expressFormData = require('express-form-data');
 require('dotenv').config();
 
+const UserModel = require('./models/UserModel.js');
 const usersRoutes = require('./routes/users-routes.js');
 const productsRoutes = require('./routes/products-routes.js');
 

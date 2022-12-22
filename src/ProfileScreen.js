@@ -180,7 +180,7 @@ function ProfileScreen() {
       <Container maxWidth="sm">
       
             <Box pt={5} >
-                <Typography component="text" fontSize="330%">
+                <Typography component="text" fontSize="36px">
                     Welcome {User}
                 </Typography>
             </Box>
@@ -188,7 +188,7 @@ function ProfileScreen() {
             <Box pt={5}> 
            
       
-       <Avatar src= {userDetails.avatar} style={borderRadius} alt="profile"    sx={{ width: 300, height:300 }}/>
+       <Avatar src={userDetails.avatar} style={borderRadius} alt="profile" sx={{ width: 300, height:300 }}/>
   
             </Box>
 
@@ -200,7 +200,7 @@ function ProfileScreen() {
                             firstNameField = thisElement;
                         } 
                     }
-                    label={userDetails.firstName} required={true}/>
+                    label="First Name" required={true}/>
                 </FormControl>
 
                 <FormControl fullWidth sx={{ mb: 2 }}>
@@ -210,7 +210,7 @@ function ProfileScreen() {
                             lastNameField = thisElement;
                         } 
                     }
-                   label={userDetails.lastName} required={true}/>
+                   label="Last Name" required={true}/>
                 </FormControl>
 
                 <FormControl fullWidth sx={{ mb: 2 }}>
@@ -220,7 +220,7 @@ function ProfileScreen() {
                             emailField = thisElement;
                         } 
                     }
-                    label={userDetails.email} required={true}/>
+                    label="Email Address" required={false}/>
                 </FormControl>
 
                 <FormControl fullWidth sx={{ mb: 2 }}>
@@ -231,7 +231,7 @@ function ProfileScreen() {
                         } 
                     }
                     type="password"
-                    label="Password" required={true} />
+                    label="Password" required={true}  />
                 </FormControl>
             </Box>
 
@@ -249,7 +249,7 @@ function ProfileScreen() {
                         ref={function(thisElement){ avatarField = thisElement }} 
                         onClick={attachFile}
                         onChange={attachFile}
-                        hidden accept="image/*" 
+                        accept="image" 
                         multiple type="file" 
                     />
                 </Button>

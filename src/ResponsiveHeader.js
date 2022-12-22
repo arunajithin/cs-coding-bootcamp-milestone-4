@@ -149,7 +149,7 @@ useEffect(
               {
                 loggedIn ?
                   <Box sx={{ marginLeft: '40px', display:"flex", flexWrap: 'wrap' }}>
-                    <Avatar src={avatarField} sx={{ marginRight: '40px'}} />
+                    <Avatar src={localStorage.getItem('avatar')} sx={{ marginRight: '40px'}} />
                     <Button sx={{ backgroundColor: "primary" }} size="small" variant="contained" onClick={logoutUser}>Logout</Button>
                   </Box> :
                   <Box sx={{ marginLeft: '20px', flexWrap: 'wrap' }}>

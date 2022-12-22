@@ -1,16 +1,27 @@
 const express = require('express');
 const router = express.Router();
 
+
+/**
+ * ------------------------------------------------------------------------------
+ * START
+ * PassportJS Integration
+ */
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const cloudinary = require('cloudinary').v2;
-const passport = require('passport');
-
 
 // This is similar to salt in bcrypt
 const jwtSecret = process.env.JWT_SECRET
+/**
+ * ------------------------------------------------------------------------------
+ * END
+ * PassportJS Integration
+ */
 
-const UserModel = require('../models/UserModel');
+
+const UserModel = require('../models/UserModel.js');
+const passport = require('passport');
 
 // http://localhost:3001/users/register
 router.post( '/register',
@@ -22,7 +33,6 @@ router.post( '/register',
             'lastName': req.body.lastName,
             'email': req.body.email,
             'password': req.body.password,
-            'phone': req.body.phone,
         }
 
 
@@ -35,6 +45,7 @@ router.post( '/register',
                 if( Object.values(req.files).length > 0 ) {
 
                     const files = Object.values(req.files);
+                    
                     
                     // upload to Cloudinary
                     await cloudinary.uploader.upload(
@@ -139,6 +150,7 @@ router.post( '/register',
         )
     }
 );
+
 
 // http://localhost:3001/users/login
 router.post('/login', 
@@ -245,50 +257,8 @@ router.post('/login',
     }
 )
 
-// users/update
-router.put('/update',
-    function(req, res){
-        let updates = {}
 
-        if(req.body.firstName){
-            updates['firstName'] = req.body.firstName;
-        };
-        if(req.body.lastName){
-            updates['lastName'] = req.body.lastName;
-        };
-        if(req.body.phone){
-            updates['phone'] = req.body.phone;
-        };
-        if(req.body.password){
-            updates['password'] = req.body.password;
-        };
-
-        UserModel
-        .findOneAndUpdate(
-            {
-                "email": req.body.email
-            },
-            {
-                $set: updates
-            },
-            {
-                new: true
-            }
-        )
-        .then(
-            function(dbDocument){
-                res.json(dbDocument)
-            }
-        )
-        .catch(
-            function(error){
-                console.log('/users/update error', error);
-                res.send('An error occured');
-            }
-        )
-    }
-);
-
+// http://localhost:3001/users/find
 router.post('/find',
     passport.authenticate('jwt', {session: false}),
     function(req, res) {
@@ -309,6 +279,119 @@ router.post('/find',
             }
         )
     }
+);
+
+
+// http://localhost:3001/users/update
+router.put(
+    '/update',
+   // passport.authenticate('jwt', {session: false}),
+    function(req, res) {
+
+        let updates = {}
+
+        if (req.body.firstName){ 
+            updates['firstName'] = req.body.firstName 
+        };
+        if (req.body.lastName) {
+            updates['lastName'] = req.body.lastName;
+        };
+        if (req.body.phone) {
+            updates['phone'] = req.body.phone;
+        };
+        if (req.body.password) {
+            updates['password'] = req.body.password;
+        };
+        
+
+        UserModel
+        .findOneAndUpdate(
+            {
+                "email": req.body.email
+            },
+            {
+                $set: updates
+            },
+            {
+                new: true
+            }
+        )
+        .then(
+            async function (dbDocument) {
+                // If avatar file is included...
+                if( Object.values(req.files).length > 0 ) {
+
+                    const files = Object.values(req.files);
+                    
+                    
+                    // upload to Cloudinary
+                    await cloudinary.uploader.upload(
+                        files[0].path,
+                        (cloudinaryErr, cloudinaryResult) => {
+                            if(cloudinaryErr) {
+                                console.log(cloudinaryErr);
+                                res.json(
+                                    {
+                                        status: "not ok",
+                                        message: "Error occured during image upload"
+                                    }
+                                )
+                            } else {
+                                // Include the image url in updates
+                                updates.avatar = cloudinaryResult.url;
+                                console.log('updates.avatar', updates.avatar)
+                            }
+                        }
+                    )
+                };
+
+
+                 // If email is unique...
+                 if(dbDocument) {
+           
+                    // Generate a salt
+                    bcryptjs.genSalt(
+
+                        function(bcryptError, theSalt) {
+                        // Use the (a) and (b) salt user's password 
+                        // and produce hashed password
+                            bcryptjs.hash( 
+                                updates.password,                  // first ingredient
+                                theSalt,                            // second ingredient
+                                function(hashError, theHash) {      // the hash
+                                    // Reassign the original password formData
+                                    updates['password'] = theHash;
+
+                                }
+                            )
+                        }
+                    )
+
+                }
+                // If email is NOT unique....
+                else { 
+                    // reject the request
+                    res.status(403).json(
+                        {
+                            "status": "not ok",
+                            "message": "Account already exists"
+                        }
+                    )
+                }
+    
+                res.json(dbDocument);
+            }
+        ) 
+        
+        .catch(
+            function(error) {
+                console.log('/users/update error', error);
+                res.send('An error occured');
+            }
+        )
+  }   
+
+    
 );
 
 module.exports = router;

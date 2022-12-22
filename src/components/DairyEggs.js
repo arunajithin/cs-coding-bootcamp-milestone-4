@@ -72,8 +72,8 @@ const Products = () => {
             if (product.category === "Dairy & Eggs") {
               return (
                 <Grid item xs={12} md={4}>
-                  <Card sx={{ height: "550px" }}>
-                    <CardMedia sx={{ width: "300px", height: "350px", margin: "auto" }}
+                  <Card>
+                    <CardMedia sx={{ width: "250px", height: "250px", margin: "auto", objectFit: "contain" }}
                       component="img"
                       image={product.productImage}
                       alt={product.productName}

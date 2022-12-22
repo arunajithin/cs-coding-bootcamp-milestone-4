@@ -4,6 +4,7 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Button from "@mui/material/Button";
 import styles from '../styles.module.css';
+import { Link } from 'react-router-dom';
 
 import StoreImage from '../assets/images/store-graphics.svg';
 
@@ -21,7 +22,7 @@ function CallToActionBanner(){
                             <Typography variant="body1" mb={3} sx={{ color: '#fff', fontSize: '16px' }}>
                                 Start your daily shopping with Urban Fresh
                             </Typography>
-                            <Button variant="contained" className={styles.btnOrder}>Order Now</Button>
+                            <Button variant="contained" className={styles.btnOrder} component={Link} to="/products">Shop Now</Button>
                         </Box>
                     </Grid>
                     <Grid item xs={12} sm={6}>
