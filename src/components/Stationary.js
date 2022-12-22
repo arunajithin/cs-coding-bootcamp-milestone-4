@@ -66,10 +66,10 @@ const Products = () => {
   if (productDetails) {
     return (
       <Container maxWidth="lg" sx={{ py: 6 }}>
-              <Typography variant="h2" gutterBottom>Dairy & Eggs</Typography>
+              <Typography variant="h2" gutterBottom>Stationary</Typography>
         <Grid container spacing={3}>
           {productDetails.map(product => {
-            if (product.category === "Dairy & Eggs") {
+            if (product.category === "Stationary") {
               return (
                 <Grid item xs={12} md={4}>
                   <Card>

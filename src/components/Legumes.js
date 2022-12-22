@@ -14,7 +14,7 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
-const Products = () => {
+const Legumes = () => {
 
   const [productDetails, setProductDetails] = useState();
 
@@ -66,10 +66,10 @@ const Products = () => {
   if (productDetails) {
     return (
       <Container maxWidth="lg" sx={{ py: 6 }}>
-              <Typography variant="h2" gutterBottom>Dairy & Eggs</Typography>
+              <Typography variant="h2" gutterBottom>Legumes</Typography>
         <Grid container spacing={3}>
           {productDetails.map(product => {
-            if (product.category === "Dairy & Eggs") {
+            if (product.category === "Legumes") {
               return (
                 <Grid item xs={12} md={4}>
                   <Card>
@@ -105,4 +105,4 @@ const Products = () => {
 
 };
 
-export default Products;
+export default Legumes;
