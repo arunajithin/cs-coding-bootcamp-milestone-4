@@ -80,13 +80,17 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function PrimarySearchAppBar() {
-  const [avatarField, setAvatar] = useState();
+  const [userDetails, setUserDetails] = useState();
+
 
 useEffect(
   function () {
     fetch(`${process.env.REACT_APP_BACKEND_ENDPOINT}/users/find`, {
-      method: "PUT"
-
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("jsonwebtoken")}`,
+      },
+      // 'body': {}
     })
       // This will recieve string data and convert to json
       .then(function (backendReponse) {
@@ -94,7 +98,7 @@ useEffect(
       })
       // This will receie the converted json
       .then(function (jsonResponse) {
-        setAvatar(jsonResponse);
+        setUserDetails(jsonResponse);
       })
       // This will catch errors if any
       .catch(function (backendError) {
@@ -105,12 +109,15 @@ useEffect(
   // This array is empty because useEffect will run once only
   []
 );
+
   const [value, setValue] = React.useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
   const { loggedIn, logoutUser } = React.useContext(UserContext);
+
+  if (userDetails){
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -149,7 +156,7 @@ useEffect(
               {
                 loggedIn ?
                   <Box sx={{ marginLeft: '40px', display:"flex", flexWrap: 'wrap' }}>
-                    <Avatar src={localStorage.getItem('avatar')} sx={{ marginRight: '40px'}} />
+                    <Avatar component={ReactLink} to="/profile" src={userDetails.avatar} sx={{ marginRight: '40px'}} />
                     <Button sx={{ backgroundColor: "primary" }} size="small" variant="contained" onClick={logoutUser}>Logout</Button>
                   </Box> :
                   <Box sx={{ marginLeft: '20px', flexWrap: 'wrap' }}>
@@ -182,4 +189,79 @@ useEffect(
       </AppBar>
     </Box>
   );
+}
+else{
+
+  return (
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar position="static" sx={{ backgroundColor: "#ffffff" }}>
+        <ThemeProvider theme={theme}>
+          <Container maxWidth="xl">
+            <Toolbar>
+              <Box sx={{marginRight: "50px"}}>
+                <a href="/">
+                  <img width="200px" height="50px" src={logo} alt={"Logo"}/>
+                </a>
+              </Box>
+              <Box sx={{ border: 1, borderColor: 'grey.400', borderRadius: 1, flexWrap: 'wrap' }}>
+                <Search>
+                  <SearchIconWrapper sx={{ color: "black" }}>
+                    <SearchIcon />
+                  </SearchIconWrapper>
+                  <StyledInputBase sx={{ color: "black" }}
+                    placeholder="Search for something delightful..."
+                    inputProps={{ 'aria-label': 'search' }}
+                  />
+                </Search>
+              </Box>
+              <Box sx={{ flexGrow: 1 }} />
+              <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+                <IconButton
+                  size="large"
+                  aria-label="cart menu"
+                  color="black"
+                >
+                  <Badge badgeContent={0} color="error">
+                    <ShoppingCartIcon />
+                  </Badge>
+                </IconButton>
+              </Box>
+              {
+                loggedIn ?
+                  <Box sx={{ marginLeft: '40px', display:"flex", flexWrap: 'wrap' }}>
+                    <Avatar component={ReactLink} to="/profile" src={userDetails} sx={{ marginRight: '40px'}} />
+                    <Button sx={{ backgroundColor: "primary" }} size="small" variant="contained" onClick={logoutUser}>Logout</Button>
+                  </Box> :
+                  <Box sx={{ marginLeft: '20px', flexWrap: 'wrap' }}>
+                    <Button sx={{ backgroundColor: "primary" }} size="small" variant="contained" component={ReactLink} to={"/register"}>Sign up</Button>
+                    <Button size="small" variant="text" component={ReactLink} to={"/login"}>Log in</Button>
+                  </Box>
+              }
+            </Toolbar>
+          </Container>
+        </ThemeProvider>
+      </AppBar>
+      <AppBar position="static" sx={{ backgroundColor: "#f9fff3", boxShadow: '0px 2px 5px #bcbaba' }}>
+        <ThemeProvider theme={theme}>
+          <Toolbar>
+            <Box sx={{ width: '100%' }}>
+              <Tabs value={value} onChange={handleChange} centered indicatorColor="secondary" textColor="primary">
+                {pages.map((page, i) => (
+                  <Tab
+                    sx={{ fontWeight: 'bold' }}
+                    label={page}
+                    component={ReactLink}
+                    to={pagesPaths[i]}
+                    key={page} />
+                )
+                )}
+              </Tabs>
+            </Box>
+          </Toolbar>
+        </ThemeProvider>
+      </AppBar>
+    </Box>
+  );
+
+}
 }

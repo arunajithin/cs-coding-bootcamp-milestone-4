@@ -22,12 +22,12 @@ function Footer() {
                 </Link>
               </Box>
               <Box>
-                <Link href="/" color="inherit" underline="none">
+                <Link href="/termsConditions" color="inherit" underline="none">
                   Terms & Conditions
                 </Link>
               </Box>
               <Box>
-                <Link href="/" color="inherit" underline="none">
+                <Link href="/privacyPolicy" color="inherit" underline="none">
                   Privacy Policy
                 </Link>
               </Box>
